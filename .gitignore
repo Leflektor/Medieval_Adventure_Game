@@ -7,7 +7,6 @@ cmake_install.cmake
 compile_commands.json
 
 # Pliki binarne
-*.exe
 *.dll
 *.lib
 *.a
