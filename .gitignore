@@ -1,0 +1,20 @@
+# Foldery generowane przez CMake
+build/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+compile_commands.json
+
+# Pliki binarne
+*.exe
+*.dll
+*.lib
+*.a
+*.obj
+*.pdb
+
+# VS Code / systemowe
+.vscode/
+.DS_Store
+Thumbs.db

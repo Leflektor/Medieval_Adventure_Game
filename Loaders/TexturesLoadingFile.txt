@@ -1,0 +1,65 @@
+Evil Wizard
+Attack1
+Attack
+Death
+Fall
+Idle
+Jump
+Run
+Take hit
+=
+Flying eye
+Attack
+Death
+Run
+Idle
+projectile_sprite
+Take Hit
+=
+Goblin
+Attack
+Bomb_sprite
+Death
+Idle
+Run
+Take Hit
+=
+Mushroom
+Attack
+Death
+Idle
+Projectile_sprite
+Run
+Take Hit
+=
+Player
+Player_sheet
+adventurer-bow-Sheet
+=
+Skeleton
+Attack
+Death
+Idle
+Shield
+Sword_sprite
+Take Hit
+Run
+=
+Tiles
+grass_1
+grass_2
+grass_3
+grass_4
+grass_5
+ground_1
+ground_2
+ground_3
+ground_4
+ground_5
+ground_6
+ground_7
+ground_8
+ground_9
+ground_10
+ground_11
+transparent

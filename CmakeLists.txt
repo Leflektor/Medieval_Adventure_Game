@@ -1,0 +1,44 @@
+cmake_minimum_required(VERSION 3.10)
+project(Medieval_Adventure LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# SFML 2.5.1 (ta sama ścieżka co wcześniej)
+set(SFML_DIR "C:/SFML-2.5.1/lib/cmake/SFML")
+find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
+
+# 📁 Zbierz wszystkie .cpp z katalogu src (rekurencyjnie)
+file(GLOB_RECURSE GAME_SOURCES CONFIGURE_DEPENDS
+     "${CMAKE_SOURCE_DIR}/src/*.cpp")
+
+# 🏁 Utwórz exe z całej puli źródeł
+add_executable(Medieval_Adventure ${GAME_SOURCES})
+
+# 🔎 Nagłówki znajdują się w src/, więc dodajemy include path
+target_include_directories(Medieval_Adventure PRIVATE "${CMAKE_SOURCE_DIR}/src")
+
+# 🔗 Linkowanie z SFML
+target_link_libraries(Medieval_Adventure PRIVATE
+    sfml-graphics sfml-window sfml-system sfml-audio)
+
+# 💾 Skopiuj DLL-e SFML i MinGW obok .exe po buildzie (jak w projekcie 1-plikowym)
+add_custom_command(TARGET Medieval_Adventure POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+          "C:/SFML-2.5.1/bin" "$<TARGET_FILE_DIR:Medieval_Adventure>"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          "C:/mingw64/bin/libgcc_s_seh-1.dll"
+          "C:/mingw64/bin/libstdc++-6.dll"
+          "C:/mingw64/bin/libwinpthread-1.dll"
+          "$<TARGET_FILE_DIR:Medieval_Adventure>"
+)
+
+# 🎒 Skopiuj katalogi z assetami (dostosuj, jeśli używasz innych nazw)
+foreach(dir IN ITEMS Textures Fonts Loaders)
+  if(EXISTS "${CMAKE_SOURCE_DIR}/${dir}")
+    add_custom_command(TARGET Medieval_Adventure POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_directory
+              "${CMAKE_SOURCE_DIR}/${dir}"
+              "$<TARGET_FILE_DIR:Medieval_Adventure>/${dir}")
+  endif()
+endforeach()
