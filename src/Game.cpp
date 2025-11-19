@@ -1,7 +1,5 @@
 #include "Game.h"
 
-
-
     //Private functions /Initalizers
 void Game::initVariables()
 {
@@ -66,7 +64,7 @@ void Game::initTextures()
                 tempMap[string] = new sf::Texture();
 
                 if(!tempMap[string]->loadFromFile(path.str()))
-                    std::cout << "ERROR::INITTEXTURES\n";
+                    std::cout << "ERROR::COULD_NOT_OPEN_FROM_FILE::INIT_TEXTURES::Loaders/TexturesLoadingFile.txt\n";
             }
             this->textures[temp] = tempMap;
             tempMap.clear();
@@ -76,7 +74,7 @@ void Game::initTextures()
     //BACKGROUND
     tempMap["background"] = new sf::Texture();
     if(!tempMap["background"]->loadFromFile("Textures/Backgrounds/background.png"))
-        std::cout << "ERROR::INITTEXTURES" << "\n";
+        std::cout << "ERROR::COULD_NOT_OPEN_FROM_FILE::INIT_TEXTURES::Textures/Backgrounds/background.png\n";
     this->textures["background"] = tempMap;
     tempMap.clear();
 }
@@ -84,68 +82,52 @@ void Game::initTextures()
 
 void Game::initMenu()
 {
+    auto initText = [this](const std::string& text){
+        sf::Text t(text, this->font, 50);
+        t.setFillColor(sf::Color::White);
+        return t;
+    };
+
     //load font
-    this->font.loadFromFile("Fonts/PixellettersFull.ttf");
+    if(!this->font.loadFromFile("Fonts/PixellettersFull.ttf"))
+        std::cout << "ERROR::COULD_NOT_OPEN_FROM_FILE::INIT_MENU::Fonts/PixellettersFull.ttf\n";
 
     //initilize all captions
-    this->texts["Title"] = new sf::Text;
-    this->texts["Title"]->setString("MEDIEVAL ADVENTTURE");
+    this->texts["Title"] = initText("MEDIEVAL ADVENTTURE");
+    this->texts["Game over"] = initText("GAME OVER");
+    this->texts["Congratulations"] = initText("CONGRATULATIONS !");
+    this->texts["You win"] = initText("YOU WIN");
+    this->texts["Start"] = initText("START");
+    this->texts["Options"] = initText("OPTIONS");
+    this->texts["Quit"] = initText("QUIT");
+    this->texts["Play again"] = initText("PLAY AGAIN");
+    this->texts["MousePos"] =  initText("");
 
-    this->texts["Game over"] = new sf::Text;
-    this->texts["Game over"]->setString("GAME OVER");
-
-    this->texts["Congratulations"] = new sf::Text;
-    this->texts["Congratulations"]->setString("CONGRATULATIONS !");
-
-    this->texts["You win"] = new sf::Text;
-    this->texts["You win"]->setString("YOU WIN");
-
-    this->texts["Start"] = new sf::Text;
-    this->texts["Start"]->setString("START");
-
-    this->texts["Options"] = new sf::Text;
-    this->texts["Options"]->setString("OPTIONS");
-
-    this->texts["Quit"] = new sf::Text;
-    this->texts["Quit"]->setString("QUIT");
-
-    this->texts["Play again"] = new sf::Text;
-    this->texts["Play again"]->setString("PLAY AGAIN");
-
-    this->texts["MousePos"] = new sf::Text;
-
-
-    for(auto& [name, text]  : this->texts)
-    {
-        text->setFont(this->font);
-        text->setCharacterSize(50);
-        text->setFillColor(sf::Color::White);
-    }
-    this->texts["Title"]->setCharacterSize(100);
-    this->texts["Game over"]->setCharacterSize(100);
-    this->texts["You win"]->setCharacterSize(100);
-    this->texts["MousePos"]->setCharacterSize(25);
-    this->texts["Congratulations"]->setCharacterSize(75);
-    this->texts["MousePos"]->setFillColor(sf::Color::Black);
+    this->texts["Title"].setCharacterSize(100);
+    this->texts["Game over"].setCharacterSize(100);
+    this->texts["You win"].setCharacterSize(100);
+    this->texts["MousePos"].setCharacterSize(25);
+    this->texts["Congratulations"].setCharacterSize(75);
+    this->texts["MousePos"].setFillColor(sf::Color::Black);
 
     //Set captions position
-    this->texts["Title"]->setPosition(window->getSize().x / 2 - this->texts["Title"]->getGlobalBounds().width / 2,
+    this->texts["Title"].setPosition(window->getSize().x / 2 - this->texts["Title"].getGlobalBounds().width / 2,
             window->getSize().y / 2 - 420);
-    this->texts["You win"]->setPosition(window->getSize().x / 2 - this->texts["You win"]->getGlobalBounds().width / 2,
+    this->texts["You win"].setPosition(window->getSize().x / 2 - this->texts["You win"].getGlobalBounds().width / 2,
             window->getSize().y / 2 - 420);
-    this->texts["Game over"]->setPosition(window->getSize().x / 2 - this->texts["Game over"]->getGlobalBounds().width / 2,
+    this->texts["Game over"].setPosition(window->getSize().x / 2 - this->texts["Game over"].getGlobalBounds().width / 2,
             window->getSize().y / 2 - 420);
-    this->texts["Congratulations"]->setPosition(window->getSize().x / 2 - this->texts["Congratulations"]->getGlobalBounds().width / 2,
+    this->texts["Congratulations"].setPosition(window->getSize().x / 2 - this->texts["Congratulations"].getGlobalBounds().width / 2,
             window->getSize().y / 2 - 275);
-    this->texts["Start"]->setPosition(window->getSize().x / 2 - this->texts["Start"]->getGlobalBounds().width / 2,
+    this->texts["Start"].setPosition(window->getSize().x / 2 - this->texts["Start"].getGlobalBounds().width / 2,
             window->getSize().y / 2 -100);
-    this->texts["Play again"]->setPosition(window->getSize().x / 2 - this->texts["Play again"]->getGlobalBounds().width / 2,
+    this->texts["Play again"].setPosition(window->getSize().x / 2 - this->texts["Play again"].getGlobalBounds().width / 2,
             window->getSize().y / 2 - 100);
-    this->texts["Options"]->setPosition(window->getSize().x / 2 - this->texts["Options"]->getGlobalBounds().width / 2,
+    this->texts["Options"].setPosition(window->getSize().x / 2 - this->texts["Options"].getGlobalBounds().width / 2,
             window->getSize().y / 2);
-    this->texts["Quit"]->setPosition(window->getSize().x / 2 - this->texts["Quit"]->getGlobalBounds().width / 2,
+    this->texts["Quit"].setPosition(window->getSize().x / 2 - this->texts["Quit"].getGlobalBounds().width / 2,
             window->getSize().y / 2 + 100);
-    this->texts["MousePos"]->setPosition(20, 20);
+    this->texts["MousePos"].setPosition(20, 20);
 
     //initialize background
     this->background.setTexture(*textures["background"]["background"]);
@@ -240,23 +222,23 @@ void Game::initTileMap()
                         break;
                     case 'E':
                         this->tileMap[y][x].setTile(*temptex["transparent"],this->gridSizeF, x, y, false);
-                        this->enemies.push_back(new EvilWizard(this->textures["Evil Wizard"],this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
+                        this->enemies.push_back(new EvilWizard(this->textures["Evil Wizard"], this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
                         break;
                     case 'S':
                         this->tileMap[y][x].setTile(*temptex["transparent"],this->gridSizeF, x, y, false);
-                        this->enemies.push_back(new Skeleton(this->textures["Skeleton"],this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
+                        this->enemies.push_back(new Skeleton(this->textures["Skeleton"], this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
                         break;
                     case 'F':
                         this->tileMap[y][x].setTile(*temptex["transparent"],this->gridSizeF, x, y, false);
-                        this->enemies.push_back(new FlyingEye(this->textures["Flying eye"],this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
+                        this->enemies.push_back(new FlyingEye(this->textures["Flying eye"], this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
                         break;
                     case 'G':
                         this->tileMap[y][x].setTile(*temptex["transparent"],this->gridSizeF, x, y, false);
-                        this->enemies.push_back(new Goblin(this->textures["Goblin"],this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
+                        this->enemies.push_back(new Goblin(this->textures["Goblin"], this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
                         break;
                     case 'M':
                         this->tileMap[y][x].setTile(*temptex["transparent"],this->gridSizeF, x, y, false);
-                        this->enemies.push_back(new Mushroom(this->textures["Mushroom"],this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
+                        this->enemies.push_back(new Mushroom(this->textures["Mushroom"], this->animSpeed, this->playerSpeed, sf::Vector2f(this->gridSizeF*x, this->gridSizeF*y)));
                         break;
                     default:
                         this->tileMap[y][x].setTile(*temptex["transparent"],this->gridSizeF, x, y, false);
@@ -336,7 +318,7 @@ void Game::run()
 
 
     //Updating
-void Game::updateMousePos() //TODO do usuniecia pozniej albo do przerobienia pod jakies strzelanie
+void Game::updateMousePos()
 {
     this->playerPos.x = player->getBounds().left;
     this->playerPos.y = player->getBounds().top;
@@ -366,7 +348,7 @@ void Game::updateMousePos() //TODO do usuniecia pozniej albo do przerobienia pod
 
 void Game::updateEntities()
 {
-    this->dt = dtCloak.restart().asSeconds();
+    this->dt = dtClock.restart().asSeconds();
     if(this->dt > 1.0f / 20.0f)
     {
         this->dt = 1.0f / 20.0f;
@@ -384,19 +366,19 @@ void Game::updateEntities()
     if(this->enemies.empty())
     {
         this->gameState = FinalScreenMenu;
-//        delete this->player;
-//        this->tileMap.clear();
-//        for(int y = 0; y < this->mapSize.y; ++y)
-//        {
-//            this->tileMap[y].clear();
-//        }
         this->win = true;
+        // delete this->player;
+        // this->tileMap.clear();
+        // for(int y = 0; y < this->mapSize.y; ++y)
+        // {
+        //     this->tileMap[y].clear();
+        // }
     }
     for(size_t i = 0; i < this->enemies.size(); ++i)
     {
         if(this->viewBounds.intersects(enemies[i]->getBounds()))
         {
-            if(!enemies[i]->isDead())
+            if(!(enemies[i]->isDead()))
             {
                 enemies[i]->update(this->dt);
             }
@@ -486,10 +468,13 @@ void Game::updateCollisions()
     }
     for(auto &enemy : this->enemies)
     {
-        if(enemy->GetCollider().CheckCollision(this->player->GetCollider(), this->playerDirection , 1.0f))
-        {
-//            this->player->setPosition(500.f, 500.f);
-        }
+        enemy->GetCollider().CheckCollision(this->player->GetCollider(), this->playerDirection , 1.0f);
+
+        // If enemy is touched then player dies so is respawned at (500, 500)
+        // if(enemy->GetCollider().CheckCollision(this->player->GetCollider(), this->playerDirection , 1.0f))
+        // {
+        //    this->player->setPosition(500.f, 500.f);
+        // }
     }
 }
 
@@ -553,28 +538,28 @@ void Game::updateMenu()
 {
     this->updateMousePos();
 
-    if(this->texts["Start"]->getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
+    if(this->texts["Start"].getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
     {
-        this->texts["Start"]->setFillColor(sf::Color::Blue);
+        this->texts["Start"].setFillColor(sf::Color::Blue);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
             this->gameState = Playing;
             this->window->setTitle("Medieval Adventure! - Esc to go back to the main menu");
         }
     }
-    else if(this->texts["Options"]->getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
+    else if(this->texts["Options"].getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
     {
-        this->texts["Options"]->setFillColor(sf::Color::Blue);
+        this->texts["Options"].setFillColor(sf::Color::Blue);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
-            this->texts["Options"]->setString("Coming Soon =]");
-            this->texts["Options"]->setPosition(window->getSize().x / 2 - this->texts["Options"]->getGlobalBounds().width / 2,
+            this->texts["Options"].setString("Coming Soon =]");
+            this->texts["Options"].setPosition(window->getSize().x / 2 - this->texts["Options"].getGlobalBounds().width / 2,
             window->getSize().y / 2);
         }
     }
-    else if(this->texts["Quit"]->getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
+    else if(this->texts["Quit"].getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
     {
-        this->texts["Quit"]->setFillColor(sf::Color::Blue);
+        this->texts["Quit"].setFillColor(sf::Color::Blue);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
             this->window->close();
@@ -582,9 +567,9 @@ void Game::updateMenu()
     }
     else
     {
-        this->texts["Start"]->setFillColor(sf::Color::White);
-        this->texts["Options"]->setFillColor(sf::Color::White);
-        this->texts["Quit"]->setFillColor(sf::Color::White);
+        this->texts["Start"].setFillColor(sf::Color::White);
+        this->texts["Options"].setFillColor(sf::Color::White);
+        this->texts["Quit"].setFillColor(sf::Color::White);
     }
 }
 
@@ -604,35 +589,39 @@ void Game::updateFinalScreen()
 {
     this->updateMousePos();
 
-    if(this->texts["Play again"]->getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
+    if(this->texts["Play again"].getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
     {
-        this->texts["Play again"]->setFillColor(sf::Color::Blue);
+        this->texts["Play again"].setFillColor(sf::Color::Blue);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
             this->gameState = Playing;
+            this->win = false;
+
+            // this->initTileMap(); W celu wgrania mapy i przeciwnikow na nowo, ale jest bug ktory sprawaia ze kazdy tile jest 10 razy mniejszy niz powinien
+            
             this->window->setTitle("Medieval Adventure! - Esc to go back to menu");
         }
 
     }
-    else if(this->texts["Options"]->getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
+    else if(this->texts["Options"].getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
     {
-        this->texts["Options"]->setFillColor(sf::Color::Blue);
+        this->texts["Options"].setFillColor(sf::Color::Blue);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
             std::cout << "Options final screen" << "\n";
         }
     }
-    else if(this->texts["Quit"]->getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
+    else if(this->texts["Quit"].getGlobalBounds().contains(mousePosWindow.x, mousePosWindow.y))
     {
-        this->texts["Quit"]->setFillColor(sf::Color::Blue);
+        this->texts["Quit"].setFillColor(sf::Color::Blue);
         if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             this->window->close();
     }
     else
     {
-        this->texts["Play again"]->setFillColor(sf::Color::White);
-        this->texts["Options"]->setFillColor(sf::Color::White);
-        this->texts["Quit"]->setFillColor(sf::Color::White);
+        this->texts["Play again"].setFillColor(sf::Color::White);
+        this->texts["Options"].setFillColor(sf::Color::White);
+        this->texts["Quit"].setFillColor(sf::Color::White);
     }
 }
 
@@ -655,10 +644,10 @@ void Game::renderMenu()
     this->window->clear();
 
     this->window->draw(this->background);
-    this->window->draw(*texts["Title"]);
-    this->window->draw(*texts["Start"]);
-    this->window->draw(*texts["Options"]);
-    this->window->draw(*texts["Quit"]);
+    this->window->draw(texts["Title"]);
+    this->window->draw(texts["Start"]);
+    this->window->draw(texts["Options"]);
+    this->window->draw(texts["Quit"]);
 
     this->window->display();
 }
@@ -686,6 +675,8 @@ void Game::renderPlaying()
     //render GUI stuff
     this->window->setView(this->window->getDefaultView());
 //    this->window->draw(*texts["MousePos"]);
+
+
     this->window->display();
 }
 
@@ -698,18 +689,18 @@ void Game::renderFinalScreen()
 
     if(this->win)
     {
-        window->draw(*texts["Congratulations"]);
-        window->draw(*texts["You win"]);
-        window->draw(*texts["Play again"]);
-        window->draw(*texts["Options"]);
-        window->draw(*texts["Quit"]);
+        window->draw(texts["Congratulations"]);
+        window->draw(texts["You win"]);
+        window->draw(texts["Play again"]);
+        window->draw(texts["Options"]);
+        window->draw(texts["Quit"]);
     }
     else
     {
-        window->draw(*texts["Game over"]);
-        window->draw(*texts["Play again"]);
-        window->draw(*texts["Options"]);
-        window->draw(*texts["Quit"]);
+        window->draw(texts["Game over"]);
+        window->draw(texts["Play again"]);
+        window->draw(texts["Options"]);
+        window->draw(texts["Quit"]);
     }
 
     this->window->display();

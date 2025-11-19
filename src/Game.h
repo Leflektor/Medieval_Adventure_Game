@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "stdafx.h"
-#include "Entities.h"
+#include "Enemies.h"
 #include "Tile.h"
 #include "Player.h"
 
@@ -56,13 +56,13 @@ private:
     //MainMenu / FinalScreen variables
     sf::Sprite background;
     sf::Font font;
-    std::map<std::string, sf::Text*> texts;
+    std::map<std::string, sf::Text> texts;
     bool win;
 
     //Game variables
     GameState gameState;
     sf::Event event;
-    sf::Clock dtCloak;
+    sf::Clock dtClock;
     float dt = 0.0f;
 
     //Mouse positions

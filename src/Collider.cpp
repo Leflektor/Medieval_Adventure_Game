@@ -1,7 +1,7 @@
 #include "Collider.h"
 
 
-Collider::Collider(sf::Sprite& sprite,sf::RectangleShape& hitbox)
+Collider::Collider(sf::Sprite& sprite, sf::RectangleShape& hitbox)
     : sprite(sprite), hitbox(hitbox)
 {
 
@@ -20,7 +20,7 @@ void Collider::Move(float dx, float dy)
 }
 
 
-bool Collider::CheckCollision(Collider&& other, sf::Vector2f& direction, float push)
+bool Collider::CheckCollision(Collider other, sf::Vector2f& direction, float push)
 {
     sf::Vector2f otherHalfSize = other.GetHalfSize();
     sf::Vector2f otherPosition = other.GetPosition() + otherHalfSize;

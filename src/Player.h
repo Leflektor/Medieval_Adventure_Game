@@ -2,13 +2,12 @@
 #define PLAYER_H
 
 #include "stdafx.h"
-#include "Entities.h"
 #include "PlayerAnimation.h"
 #include "Collider.h"
 
 //player sheet dimensions 50x37
 
-class Player:Entity
+class Player
 {
     //methods
 private:
